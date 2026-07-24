@@ -310,20 +310,20 @@
   const curtain = document.getElementById('curtain');
   const openBtn = document.getElementById('openBtn');
   const guestName = new URLSearchParams(window.location.search).get('guest')?.trim() || '';
+  const invitationUrl = guestName
+    ? `invitation.html?guest=${encodeURIComponent(guestName)}`
+    : 'invitation.html';
 
   if(guestName){
     document.getElementById('adminOpen').hidden = true;
-    openBtn.href = `invitation.html?guest=${encodeURIComponent(guestName)}`;
+    openBtn.href = invitationUrl;
   }
 
   openBtn.addEventListener('click', (e)=>{
-    if(guestName){
-      return;
-    }
     e.preventDefault();
     stage.classList.add('closing');
     setTimeout(()=>{ curtain.classList.add('show'); }, 500);
-    setTimeout(()=>{ window.location.href = 'invitation.html'; }, 1300);
+    setTimeout(()=>{ window.location.href = invitationUrl; }, 1300);
   });
 
   // soundtrack playback for the welcome page
