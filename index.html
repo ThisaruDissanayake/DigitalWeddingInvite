@@ -142,12 +142,12 @@
     display:inline-flex; align-items:center; gap:0.45rem; padding:0.62rem 1rem;
     border:1px solid rgba(242,218,147,0.72); border-radius:999px; background:rgba(20,16,13,0.34);
     color:var(--gold-2); cursor:pointer; font-family:'Cormorant Garamond',serif; font-weight:600;
-    letter-spacing:0.14em; text-transform:uppercase; font-size:0.72rem; backdrop-filter:blur(6px);
+    letter-spacing:0.12em; text-transform:uppercase; font-size:0.64rem; backdrop-filter:blur(6px);
     transition:background .25s ease, color .25s ease, transform .25s ease;
   }
   .tool-btn:hover{ background:rgba(242,218,147,0.16); transform:translateY(-1px); }
   .tool-btn.active{ background:var(--gold-2); color:var(--dark-1); border-color:var(--gold-2); }
-  .tool-btn svg{ width:13px; height:13px; }
+  .tool-btn svg{ width:11px; height:11px; }
   .tool-btn[hidden]{ display:none!important; }
 
   .modal-backdrop{
@@ -184,15 +184,15 @@
 
   .music-audio{ display:none; }
 
-  .stage.closing .content{ animation:contentOut .7s ease forwards; }
-  @keyframes contentOut{ to{ opacity:0; transform:translateY(-14px) scale(0.98); } }
-  .stage.closing::after{ transition:opacity .9s ease; opacity:1; background:var(--dark-1); }
-  .stage.closing video{ transition:opacity .9s ease; opacity:0; }
+  .stage.closing .content{ animation:contentOut 1.05s cubic-bezier(.22,.7,.2,1) forwards; }
+  @keyframes contentOut{ to{ opacity:0; transform:translateY(-20px) scale(0.975); } }
+  .stage.closing::after{ transition:opacity 1.1s cubic-bezier(.22,.7,.2,1); opacity:1; background:var(--dark-1); }
+  .stage.closing video{ transition:opacity 1.1s cubic-bezier(.22,.7,.2,1); opacity:0; }
 
   .curtain{
     position:fixed; inset:0; z-index:10; background:var(--dark-1);
     display:flex; align-items:center; justify-content:center;
-    opacity:0; pointer-events:none; transition:opacity .7s ease;
+    opacity:0; pointer-events:none; transition:opacity 1s cubic-bezier(.22,.7,.2,1);
   }
   .curtain.show{ opacity:1; pointer-events:all; }
   .curtain .script{ font-size:2.2rem; color:var(--gold-2); opacity:0; animation:fadeUp .8s ease .3s forwards; }
@@ -322,8 +322,8 @@
   openBtn.addEventListener('click', (e)=>{
     e.preventDefault();
     stage.classList.add('closing');
-    setTimeout(()=>{ curtain.classList.add('show'); }, 500);
-    setTimeout(()=>{ window.location.href = invitationUrl; }, 1300);
+    setTimeout(()=>{ curtain.classList.add('show'); }, 350);
+    setTimeout(()=>{ window.location.href = invitationUrl; }, 1700);
   });
 
   // soundtrack playback for the welcome page
