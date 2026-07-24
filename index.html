@@ -42,16 +42,18 @@
     position:relative; height:100svh; width:100%;
     display:flex; align-items:center; justify-content:center;
     overflow:hidden;
+    background:url('assets/couple.png') center center / cover no-repeat;
   }
   .stage video{
     position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
-    opacity:0.8;
+    opacity:1;
+    filter:brightness(1.08) saturate(1.05) contrast(1.02);
   }
   .stage::after{
     content:""; position:absolute; inset:0; z-index:1;
     background:
-      radial-gradient(ellipse at center, rgba(20,16,13,0.35) 0%, rgba(20,16,13,0.62) 68%, rgba(15,12,10,0.85) 100%),
-      linear-gradient(180deg, rgba(15,12,10,0.55) 0%, rgba(15,12,10,0.15) 30%, rgba(15,12,10,0.15) 65%, rgba(15,12,10,0.8) 100%);
+      radial-gradient(ellipse at center, rgba(20,16,13,0.18) 0%, rgba(20,16,13,0.42) 68%, rgba(15,12,10,0.68) 100%),
+      linear-gradient(180deg, rgba(15,12,10,0.28) 0%, rgba(15,12,10,0.10) 30%, rgba(15,12,10,0.10) 65%, rgba(15,12,10,0.52) 100%);
   }
 
   /* soft floating petals */
@@ -210,10 +212,6 @@
 <body>
 
 <div class="site-tools">
-  <div class="tool-btn active" id="musicStatus" aria-live="polite">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6l12-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-    <span>Music On</span>
-  </div>
   <button class="tool-btn" id="adminOpen" type="button">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
     <span>Couple Login</span>
@@ -261,8 +259,8 @@
 </div>
 
 <section class="stage" id="stage">
-  <video autoplay muted playsinline loop>
-    <source src="assets/save-the-date.mp4" type="video/mp4">
+  <video autoplay muted playsinline loop poster="assets/couple.png">
+    <source src="save-the-date.mp4" type="video/mp4">
   </video>
 
   <div class="petals" id="petals"></div>
@@ -328,26 +326,15 @@
 
   // soundtrack playback for the welcome page
   const siteMusic = document.getElementById('siteMusic');
-  const musicStatus = document.getElementById('musicStatus');
-  const musicLabel = musicStatus.querySelector('span');
 
   async function startMusic(){
     try{
       siteMusic.volume = 0.9;
       await siteMusic.play();
-      musicStatus.classList.add('active');
-      musicLabel.textContent = 'Music On';
     }catch(err){
-      musicStatus.classList.add('active');
-      musicLabel.textContent = 'Music On';
     }
   }
 
-  siteMusic.addEventListener('play', ()=>{
-    musicStatus.classList.add('active');
-    musicLabel.textContent = 'Music On';
-  });
-  musicStatus.addEventListener('click', startMusic);
   window.addEventListener('pageshow', startMusic);
   window.addEventListener('load', startMusic);
   document.addEventListener('visibilitychange', ()=>{
