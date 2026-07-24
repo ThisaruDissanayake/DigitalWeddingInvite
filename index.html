@@ -329,39 +329,36 @@
   // soundtrack playback for the welcome page
   const siteMusic = document.getElementById('siteMusic');
   const musicStatus = document.getElementById('musicStatus');
-  const musicKey = 'weddingMusicEnabled';
+  const musicLabel = musicStatus.querySelector('span');
 
-  async function ensureMusicPlaying(){
+  async function startMusic(){
     try{
       siteMusic.volume = 0.9;
       await siteMusic.play();
       musicStatus.classList.add('active');
-      musicStatus.querySelector('span').textContent = 'Music On';
-      localStorage.setItem(musicKey, '1');
+      musicLabel.textContent = 'Music On';
     }catch(err){
       musicStatus.classList.add('active');
-      musicStatus.querySelector('span').textContent = 'Tap to start music';
+      musicLabel.textContent = 'Music On';
     }
   }
 
   siteMusic.addEventListener('play', ()=>{
     musicStatus.classList.add('active');
-    musicStatus.querySelector('span').textContent = 'Music On';
-    localStorage.setItem(musicKey, '1');
+    musicLabel.textContent = 'Music On';
   });
-  siteMusic.addEventListener('pause', ()=>{
-    ensureMusicPlaying();
-  });
+  musicStatus.addEventListener('click', startMusic);
+  window.addEventListener('pageshow', startMusic);
+  window.addEventListener('load', startMusic);
   document.addEventListener('visibilitychange', ()=>{
     if(!document.hidden){
-      ensureMusicPlaying();
+      startMusic();
     }
   });
   ['pointerdown','keydown','touchstart'].forEach(eventName=>{
-    window.addEventListener(eventName, ensureMusicPlaying, { once:true, passive:true });
+    window.addEventListener(eventName, startMusic, { once:true, passive:true });
   });
-  localStorage.setItem(musicKey, '1');
-  ensureMusicPlaying();
+  startMusic();
 
   // couple-only link generator
   const adminModal = document.getElementById('adminModal');

@@ -16,7 +16,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Mrs+Saint+Delafield&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --cream:#f9f1e5;
@@ -773,41 +772,38 @@
 </footer>
 
 <script>
-  const musicKey = 'weddingMusicEnabled';
   const weddingMusic = document.getElementById('weddingMusic');
   const musicStatus = document.getElementById('musicStatus');
+  const musicLabel = musicStatus.querySelector('span');
 
-  async function ensureMusicPlaying(){
+  async function startMusic(){
     try{
       weddingMusic.volume = 0.9;
       await weddingMusic.play();
       musicStatus.classList.add('active');
-      musicStatus.querySelector('span').textContent = 'Music On';
-      localStorage.setItem(musicKey, '1');
+      musicLabel.textContent = 'Music On';
     }catch(err){
       musicStatus.classList.add('active');
-      musicStatus.querySelector('span').textContent = 'Tap to start music';
+      musicLabel.textContent = 'Music On';
     }
   }
 
   weddingMusic.addEventListener('play', ()=>{
     musicStatus.classList.add('active');
-    musicStatus.querySelector('span').textContent = 'Music On';
-    localStorage.setItem(musicKey, '1');
+    musicLabel.textContent = 'Music On';
   });
-  weddingMusic.addEventListener('pause', ()=>{
-    ensureMusicPlaying();
-  });
+  musicStatus.addEventListener('click', startMusic);
+  window.addEventListener('pageshow', startMusic);
+  window.addEventListener('load', startMusic);
   document.addEventListener('visibilitychange', ()=>{
     if(!document.hidden){
-      ensureMusicPlaying();
+      startMusic();
     }
   });
   ['pointerdown','keydown','touchstart'].forEach(eventName=>{
-    window.addEventListener(eventName, ensureMusicPlaying, { once:true, passive:true });
+    window.addEventListener(eventName, startMusic, { once:true, passive:true });
   });
-  localStorage.setItem(musicKey, '1');
-  ensureMusicPlaying();
+  startMusic();
 
   const guestName = new URLSearchParams(window.location.search).get('guest')?.trim() || '';
   if(guestName){
